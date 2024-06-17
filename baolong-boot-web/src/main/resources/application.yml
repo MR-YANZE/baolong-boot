@@ -1,0 +1,151 @@
+baolong:
+  version: 1.0.0
+
+server:
+  port: 8888
+  servlet:
+    context-path: /baolong
+
+spring:
+  application:
+    name: baolong-boot
+  profiles:
+    active: dev, dao
+  servlet:
+    multipart:
+      # 单个文件最大上传大小
+      max-file-size: 50MB
+      # 请求最大大小
+      max-request-size: 100MB
+  redis:
+    host: ${baolong.redis.host}
+    port: ${baolong.redis.port}
+    database: ${baolong.redis.database}
+    password: ${baolong.redis.password}
+    # 连接超时时间
+    timeout: 10000
+    # 配置连接池
+    jedis:
+      pool:
+        enabled: true
+        # 最小空闲连接数
+        min-idle: 2
+        # 最大空闲连接数
+        max-idle: 50
+        # 最大连接数，-1表示没有限制
+        max-active: 100
+        # 最大等待时间，-1表示没有限制
+        max-wait: -1ms
+        # 断开连接的间隔时间
+        time-between-eviction-runs: 5000
+  # 缓存配置
+  cache:
+    # 指定缓存类型
+    type: redis
+    redis:
+      # 缓存时间，1小时，单位毫秒
+      time-to-live: 3600000
+      # 是否使用缓存前缀，false不使用
+      use-key-prefix: false
+      # 缓存前缀
+      key-prefix: CACHE_
+      # 是否缓存空值，true表示空值也缓存，主要防止缓存穿透
+      cache-null-values: true
+
+# Sa-Token 配置 (文档: https://sa-token.cc)
+sa-token:
+  # token 名称（同时也是 cookie 名称）
+  token-name: bl-token
+  # token 前缀
+  token-prefix: Bearer
+  # token 有效期（单位：秒） 默认30天，-1 代表永久有效
+  timeout: 2592000
+  # token 最低活跃频率（单位：秒），如果 token 超过此时间没有访问系统就会被冻结，默认-1 代表不限制，永不冻结
+  active-timeout: -1
+  # 是否允许同一账号多地同时登录 （为 true 时允许一起登录, 为 false 时新登录挤掉旧登录）
+  is-concurrent: true
+  # 在多人登录同一账号时，是否共用一个 token （为 true 时所有登录共用一个 token, 为 false 时每次登录新建一个 token）
+  is-share: true
+  # token 风格（默认可取值：uuid、simple-uuid、random-32、random-64、random-128、tik）
+  token-style: uuid
+  # 是否输出操作日志
+  is-log: true
+
+# 分布式锁配置
+redisson:
+  enable: true
+  host: ${baolong.redisson.host}
+  port: ${baolong.redisson.port}
+  database: ${baolong.redisson.database}
+  password: ${baolong.redisson.password}
+  timeout: 10000
+
+# 日志配置
+logging:
+  config: classpath:logback-spring.xml
+  file:
+    path: ${baolong.logging.file.path}
+
+# 文档配置
+springdoc:
+  swagger-ui:
+    enabled: true
+    path: /swagger.html
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+knife4j:
+  enable: ${baolong.knife4j.enable}
+  # 个性化设置
+  setting:
+    language: zh_cn
+    # 是否开启自定义首页，true表示开启
+    enable-home-custom: false
+    # 自定义首页路径
+    home-custom-path: classpath:markdown/Sign.md
+    # 是否禁用默认的Footer显示，false表示禁用
+    enable-footer: false
+    # 是否开启自定义Footer显示，true表示开启
+    enable-footer-custom: true
+    # 界面底部显示的Footer内容，支持Markdown格式
+    footer-custom-content: Apache License 2.0 | Copyright  2024-[杭州暴龙](https://yanzeyi.icu/)
+    # 是否开启对调试中的请求参数进行缓存，true表示开启
+    enable-request-cache: true
+    # 调试tab是否开启AfterScript功能，true表示开启
+    enable-after-script: true
+    # 是否显示界面SwaggerModel功能，true表示开启
+    enable-swagger-models: true
+    # SwaggerModel名称
+    swagger-model-name: 数据模型
+    # RequestMapping类型的接口是否指显示一个，默认显示7个，true表示是
+    enable-filter-multipart-apis: true
+    # RequestMapping类型的接口配置显示一个后默认显示的请求方式
+    enable-filter-multipart-api-method-type: GET
+    # 是否开启动态参数功能，true表示开启
+    enable-dynamic-parameter: true
+    # 是否开启调试功能，true表示开启
+    enable-debug: true
+    # 是否开启搜索功能，true表示开启
+    enable-search: true
+    # 是否开启OpenAPI功能，true表示开启
+    enable-open-api: false
+    # 是否开启文档管理功能，true表示开启
+    enable-document-manage: true
+  # 自定义文档，TODO 这里有问题，不生效
+  documents:
+    - group: 1.0.0版本
+      name: 签名生成 - 文档
+      # markdown文档路径，可以是某一个文件，也可以是一个文件夹: classpath:md/*
+      locations: classpath:markdown/*
+    - group: 1.0.1版本
+      name: 签名生成 - 文档
+      locations: classpath:markdown/*
+  # 是否开启生产保护模式，true表示开启
+  production: ${baolong.knife4j.production}
+  # 是否开启跨域配置
+  cors: true
+  basic:
+    # 开启页面权限校验，true表示开启
+    enable: ${baolong.knife4j.basic}
+    username: baolong
+    password: baolong

@@ -1,0 +1,90 @@
+spring:
+  # 数据库配置
+  datasource:
+    dynamic:
+      # 启用动态数据源
+      enabled: true
+      # 设置默认的数据源或者数据源组
+      primary: master
+      # 严格匹配数据源，默认false；true未匹配到指定数据源时抛异常，false使用默认数据源
+      strict: false
+      # 是否优雅关闭数据源，默认为false，设置为true时，关闭数据源时如果数据源中还存在活跃连接，至多等待10s后强制关闭
+      grace-destroy: false
+      datasource:
+        master:
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://${baolong.mysql.host}:${baolong.mysql.port}/${baolong.mysql.name}?useUnicode=true&useSSL=false&characterEncoding=utf8&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
+          username: ${baolong.mysql.username}
+          password: ${baolong.mysql.password}
+        slave_1:
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://${baolong.mysql.host}:${baolong.mysql.port}/${baolong.mysql.name}?useUnicode=true&useSSL=false&characterEncoding=utf8&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
+          username: ${baolong.mysql.username}
+          password: ${baolong.mysql.password}
+      druid:
+        # 初始化连接数
+        initial-size: 2
+        # 最小连接数
+        min-idle: 5
+        # 最大连接数，CPU核数+1，尽量别超过20
+        max-active: 20
+        # 从连接池获取连接的最大等待时间，单位毫秒
+        max-wait: 60000
+        # 连接在连接池中最小存活时间，单位毫秒
+        min-evictable-idle-time-millis: 300000
+        # 连接在连接池中最大存活时间，单位毫秒
+        max-evictable-idle-time-millis: 900000
+        # 保持最小的连接数
+        keep-alive: true
+        # 校验连接是否有效的SQL语句
+        validation-query: SELECT 1
+        # 在空闲连接回收器线程运行期间休眠的时间值，单位毫秒，如果设置为非正数，则不运行空闲连接回收器线程。配合test-while-idle使用
+        time-between-eviction-runs-millis: 60000
+        # 申请连接的时候检测，建议配置为true，不影响性能，并且保证安全性。如果test-on-borrow=true则此配置无效
+        test-while-idle: true
+        # 指明是否在归还到池中前进行检验，会影响性能
+        test-on-return: false
+        # 检测取出连接池的连接是否可用，会影响性能
+        test-on-borrow: false
+        # 打开PSCache，PSCache对支持游标的数据库性能提升巨大，MySQL建议关闭
+        pool-prepared-statements: false
+        # 要启用PSCache，必须配置大于0，当大于0时，poolPreparedStatements自动触发修改为true。
+        # 在Druid中，不会存在Oracle下PSCache占用内存过多的问题，可以把这个数值配置大一些，比如说100。缺省值为-1
+        max-pool-prepared-statement-per-connection-size: -1
+        # 配置扩展插件，stat:监控统计 wall:防御sql注入
+        filters: stat,wall
+        # 通过connectProperties属性来打开mergeSql功能;慢SQL记录
+        connection-properties: 'druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000'
+        # 设置获取连接时的重试次数，-1为不重试
+        not-full-timeout-retry-count: 3
+        # 获取连接失败后重试次数
+        connection-error-retry-attempts: 3
+        # 是否开启异步初始化
+        async-init: true
+
+# Mybatis-Plus 配置
+mybatis-plus:
+  # 配置mapper.xml文件位置
+  mapper-locations: classpath*:mapper/**/*Mapper.xml
+  # 配置实体类包位置
+  type-aliases-package: com.baolong.boot.dao.entity
+  configuration:
+    # 开启驼峰命名
+    map-underscore-to-camel-case: true
+    # 输出SQL，不允许输出日志 org.apache.ibatis.logging.nologging.NoLoggingImpl，输出日志 org.apache.ibatis.logging.stdout.StdOutImpl
+    log-impl: ${baolong.mybatis.log-type}
+  # 全局配置
+  global-config:
+    # 关闭控制台输出 MybatisPlus LOGO
+    banner: false
+    db-config:
+      # 主键类型
+      id-type: auto
+      # 数据库表表名是否使用下划线命名
+      table-underline: true
+      # 逻辑删除实体类属性
+      logic-delete-field: isDelete
+      # 逻辑已删除的值，默认1
+      logic-delete-value: 1
+      # 逻辑未删除的值，默认0
+      logic-not-delete-value: 0

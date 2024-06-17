@@ -1,0 +1,56 @@
+baolong:
+  mysql:
+    host: 60.xxx.xxx.27
+    port: 3306
+    name: baolong-boot
+    username: baolong
+    password: xxxxxx
+  redis:
+    host: 60.xxx.xxx.27
+    port: 6379
+    database: 1
+    password: xxxxxx
+  redisson:
+    host: 60.xxx.xxx.27
+    port: 6379
+    database: 0
+    password: xxxxxx
+  mybatis:
+    # 是否开启MyBatis自定义SQL日志，注意开启自定义SQL要确保实体类重写了toString方法，不然执行结果将会是对象地址
+    enable-custom-log: true
+    # MyBatis日志输出类型，如果开启自定义SQL日志，建议使用 org.apache.ibatis.logging.nologging.NoLoggingImpl
+    log-type: org.apache.ibatis.logging.nologging.NoLoggingImpl
+  mybatis-plus:
+    # 是否开启mybatis-plus自定义ID配置
+    enable-custom-id: true
+    # 是否开启mybatis-plus分页插件配置
+    enable-pagination: true
+  druid:
+    # 是否开启druid监控
+    enable-monitor: true
+    # 允许访问的IP
+    allow: 127.0.0.1
+    # 禁止访问的IP
+    deny: 192.168.0.0/16
+    # druid监控用户名
+    username: baolong
+    # druid监控密码
+    password: baolong
+    # 是否允许重置
+    reset-enable: true
+    # 监控的URL，/* 监控所有请求
+    url-patterns: /*
+    # 忽略访问的URL规则
+    exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
+  # 日志配置
+  logging:
+    file:
+      # 注意：后面不需要带 /
+      path: ./logs
+  knife4j:
+    # 是否开启文档
+    enable: true
+    # 是否开启生产保护模式
+    production: false
+    # 是否开启权限校验
+    basic: true

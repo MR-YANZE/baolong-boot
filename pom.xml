@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.baolong.boot</groupId>
+    <artifactId>baolong-boot</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
+    <name>baolong-boot</name>
+    <description>boot模板</description>
+    <modules>
+        <module>baolong-boot-web</module>
+        <module>baolong-boot-common</module>
+        <module>baolong-boot-dao</module>
+        <module>baolong-boot-business</module>
+    </modules>
+
+    <properties>
+        <!-- 文件拷贝时的编码 -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <!-- 编译时的编码 -->
+        <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+        <!-- 编译时的版本 -->
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <maven.compiler.version>3.8.1</maven.compiler.version>
+        <!-- 依赖版本 -->
+        <spring-boot-version>2.7.18</spring-boot-version>
+        <spring-version>5.3.37</spring-version>
+        <spring-security-version>5.7.12</spring-security-version>
+        <snakeyaml-version>2.2</snakeyaml-version>
+        <logback-version>1.2.13</logback-version>
+        <json-path-version>2.9.0</json-path-version>
+        <spring-retry-version>2.0.6</spring-retry-version>
+        <mysql-version>8.4.0</mysql-version>
+        <druid-version>1.2.23</druid-version>
+        <mybatis-plus-version>3.5.3.2</mybatis-plus-version>
+        <dynamic-datasource-version>3.5.2</dynamic-datasource-version>
+        <velocity-engine-version>2.3</velocity-engine-version>
+        <jedis-version>5.1.0</jedis-version>
+        <redisson-version>3.30.0</redisson-version>
+        <sa-token-version>1.38.0</sa-token-version>
+        <knife4j-version>4.5.0</knife4j-version>
+        <java-jwt-version>4.4.0</java-jwt-version>
+        <easy-captcha-version>1.6.2</easy-captcha-version>
+        <lombok-version>1.18.32</lombok-version>
+        <hutool-version>5.8.28</hutool-version>
+        <fastjson2-version>2.0.50</fastjson2-version>
+        <gson-version>2.11.0</gson-version>
+        <guava-version>33.2.1-jre</guava-version>
+        <httpclient-version>5.3.1</httpclient-version>
+        <commons-lang-version>3.14.0</commons-lang-version>
+        <mapstruct-version>1.5.5.Final</mapstruct-version>
+    </properties>
+
+    <!--<parent>-->
+    <!--    <groupId>org.springframework.boot</groupId>-->
+    <!--    <artifactId>spring-boot-starter-parent</artifactId>-->
+    <!--    <version>2.7.18</version>-->
+    <!--</parent>-->
+
+    <dependencies>
+        <!-- 所有模块都需要的公共依赖 -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+    <!-- 依赖管理 -->
+    <dependencyManagement>
+        <dependencies>
+            <!-- SpringBoot 依赖 -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot-version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- Druid 连接池 -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${druid-version}</version>
+            </dependency>
+            <!-- Druid 监控需要 -->
+            <dependency>
+                <groupId>javax</groupId>
+                <artifactId>javaee-api</artifactId>
+                <version>8.0.1</version>
+            </dependency>
+            <!-- MyBatis-Plus -->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus-version}</version>
+            </dependency>
+            <!-- MyBatis-Plus 代码生成器 -->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-generator</artifactId>
+                <version>${mybatis-plus-version}</version>
+            </dependency>
+            <!-- MyBatis-Plus 代码生成器 velocity 模板引擎 -->
+            <dependency>
+                <groupId>org.apache.velocity</groupId>
+                <artifactId>velocity-engine-core</artifactId>
+                <version>${velocity-engine-version}</version>
+            </dependency>
+            <!-- MyBatis-Plus 多数据源 -->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+                <version>${dynamic-datasource-version}</version>
+            </dependency>
+
+            <!-- Redisson 分布式锁 -->
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson-spring-boot-starter</artifactId>
+                <version>${redisson-version}</version>
+            </dependency>
+
+            <!-- Sa-Token -->
+            <dependency>
+                <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-spring-boot-starter</artifactId>
+                <version>${sa-token-version}</version>
+            </dependency>
+            <!-- Sa-Token 整合 Redis （使用 jackson 序列化方式） -->
+            <dependency>
+                <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-redis-jackson</artifactId>
+                <version>${sa-token-version}</version>
+            </dependency>
+            <!-- JWT -->
+            <dependency>
+                <groupId>com.auth0</groupId>
+                <artifactId>java-jwt</artifactId>
+                <version>${java-jwt-version}</version>
+            </dependency>
+
+            <!-- 图形验证码 -->
+            <dependency>
+                <groupId>com.github.whvcse</groupId>
+                <artifactId>easy-captcha</artifactId>
+                <version>${easy-captcha-version}</version>
+            </dependency>
+
+            <!-- Swagger 增强方案 -->
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-openapi3-spring-boot-starter</artifactId>
+                <version>${knife4j-version}</version>
+            </dependency>
+
+            <!-- 实体类转换 -->
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct</artifactId>
+                <version>${mapstruct-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct-processor</artifactId>
+                <version>${mapstruct-version}</version>
+            </dependency>
+
+
+            <!-- hutool -->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool-version}</version>
+            </dependency>
+            <!-- fastjson2 -->
+            <dependency>
+                <groupId>com.alibaba.fastjson2</groupId>
+                <artifactId>fastjson2</artifactId>
+                <version>${fastjson2-version}</version>
+            </dependency>
+            <!-- gson -->
+            <dependency>
+                <groupId>com.google.code.gson</groupId>
+                <artifactId>gson</artifactId>
+                <version>${gson-version}</version>
+            </dependency>
+            <!-- guava -->
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava-version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot-version}</version>
+                <configuration>
+                    <mainClass>com.baolong.boot.BaolongApplication</mainClass>
+                    <!-- 如果有引入本地 JAR 包，也会打包本地 JAR 包 -->
+                    <includeSystemScope>true</includeSystemScope>
+                </configuration>
+            </plugin>
+        </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>application.yml</include>
+                    <!--<include>application-${profiles.active}.yml</include>-->
+                    <include>application-*.yml</include>
+                    <include>logback-spring.xml</include>
+                    <include>mapper/**/*.xml</include>
+                    <include>markdown/**/*.md</include>
+                    <include>*.lua</include>
+                </includes>
+                <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>*.jks</include>
+                </includes>
+                <!-- 防止JKS被maven错误解析 -->
+                <filtering>false</filtering>
+            </resource>
+        </resources>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <profiles.active>dev</profiles.active>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <profiles.active>prod</profiles.active>
+            </properties>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+        </profile>
+    </profiles>
+
+    <repositories>
+        <repository>
+            <id>ali-maven</id>
+            <name>阿里云Maven库</name>
+            <url>https://maven.aliyun.com/nexus/content/repositories/central/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+</project>
